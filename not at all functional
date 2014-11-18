@@ -1,0 +1,50 @@
+package edu.yale.cpsc112_assignment2;
+
+//import java.util.Scanner;
+import java.util.Set;
+//import java.util.regex.*;
+import java.util.*;
+
+public class Textbookscratch {
+  
+	public static void Main(String[] args) {
+	
+		//Textbookscratch parser = new (System.in);
+		//System.out.println(compactSearch(System.in));
+		//Set<String> tokens = parser.compactSearch();
+		//System.out.println(tokens);
+		System.out.println(compactSearch(""));
+	}
+	
+	public static String compactSearch(String userinput) {
+		
+		if (userinput == null) {
+			throw new IllegalArgumentException("You gotta put stuff in the search bar, dummy.");
+		}
+		else {
+		String realinput;
+		realinput = userinput;
+		 
+		
+		return realinput;
+		}
+	}
+ 
+
+	public static final Set<String> CommonWords = new LinkedHashSet<String>(); { 
+	CommonWords.add("a");
+	CommonWords.add("an");
+	CommonWords.add("the");
+	CommonWords.add("and");
+	CommonWords.add("but");
+	CommonWords.add("or");
+	CommonWords.add("to");
+	CommonWords.add("on");
+	CommonWords.add("from");
+	CommonWords.add("at");
+	CommonWords.add("of");
+	CommonWords.add("is");
+	CommonWords.add("for");
+	
+	}
+}
