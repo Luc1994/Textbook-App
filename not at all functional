@@ -1,35 +1,55 @@
+
 package edu.yale.cpsc112_assignment2;
 
-//import java.util.Scanner;
+import java.util.LinkedHashSet;
 import java.util.Set;
-//import java.util.regex.*;
+import java.util.StringTokenizer;
+import java.util.regex.*;
 import java.util.*;
 
-public class Textbookscratch {
-  
+public class CPSC112_Assignment2 {
+
 	public static void main(String[] args) {
+		
+		//This isn't working yet but maybe someday it will.
+		
+		
+		//Create the token set:
+		Set<String> tokens = parseSearchText("the hoop earring on the doofus");
 	
-		//Textbookscratch parser = new (System.in);
-		//System.out.println(compactSearch(System.in));
-		//Set<String> tokens = parser.compactSearch();
-		//System.out.println(tokens);
-		System.out.println(compactSearch(""));
+		
+		System.out.println(tokens);
+		
 	}
 	
-	public static String compactSearch(String userinput) {
+	public static String contradictNull(String userinput) {
 		
 		if (userinput == null) {
 			throw new IllegalArgumentException("You gotta put stuff in the search bar, dummy.");
 		}
-		else {
-		String realinput;
-		realinput = userinput;
-		 
-		
-		return realinput;
-		}
+		String realinput = userinput;
+		return realinput;  //Not sure we actually want to return this?
 	}
- 
+	
+	public static Set<String> parseSearchText(String realinput) {
+		Set<String> result = new LinkedHashSet<>();
+		
+		
+		boolean returnTokens = true;
+	    String currentDelims = whiteSpace;
+	    StringTokenizer parser = new StringTokenizer(
+	     realinput, currentDelims, returnTokens
+	    );
+
+	    String token = null;
+	    while (parser.hasMoreTokens()) {
+	      token = parser.nextToken(currentDelims);
+	    
+	      }
+	  
+	    return result;
+	  }
+
 
 	public static final Set<String> CommonWords;
 	static  { CommonWords = new LinkedHashSet<String>();
@@ -48,4 +68,21 @@ public class Textbookscratch {
 	CommonWords.add("for");
 	
 	}
+	
+	public boolean isCommonWord(String aSearchTokenCandidate){
+		return CommonWords.contains(aSearchTokenCandidate);
+	}
+	
+	public boolean textHasContent(String textContent) {
+		return (textContent != null) && (!textContent.trim().equals(""));
+	}
+	
+	//This method adds non-common words as search tokens.
+	public void addNonTrivialWordToResult(String aToken, Set<String> aResult){
+	    if (textHasContent(aToken) && !isCommonWord(aToken.trim())) {
+	      aResult.add(aToken.trim());
+	    }
+	  }
+	
+	public static final String whiteSpace = " \t\r\n\"";
 }
