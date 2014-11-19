@@ -31,7 +31,8 @@ public class Textbookscratch {
 	}
  
 
-	public static final Set<String> CommonWords = new LinkedHashSet<String>(); { 
+	public static final Set<String> CommonWords;
+	static  { CommonWords = new LinkedHashSet<String>();
 	CommonWords.add("a");
 	CommonWords.add("an");
 	CommonWords.add("the");
