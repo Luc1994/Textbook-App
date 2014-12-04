@@ -15,7 +15,7 @@ import android.app.Dialog;
 public class ParseStarterProjectActivity extends Activity {
 	/** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState); 
 		
 		// Add your initialization code here
 	    Parse.initialize(this, "imNR8maOdk7pX3UOCTT67BRt58azQVw91e9vtdbl", "tYAaTCZ7f6SMkS1aAGSCBn7XkN7goCx7dTY0z1sY");
