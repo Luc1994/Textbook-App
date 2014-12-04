@@ -11,8 +11,8 @@ public class CPSC112_Assignment2 {
 
 	public static void main(String[] args) {
 		
-		//This isn't working yet but maybe someday it will.
-		
+		// WE DID NOT NEED THE WHOLE DELIMS THING BECAUSE WE CAN JUST USE STRING.SPLIT, WHICH 
+		// SPLITS AT EACH SPACE
 		
 		//Create the token set:
 		Set<String> tokens = parseSearchText("the hoop earring on the doofus");
@@ -50,7 +50,7 @@ public class CPSC112_Assignment2 {
 	    return result;
 	  }
 
-
+	//convert commonwords to list and call removeall on list of words
 	public static final Set<String> CommonWords;
 	static  { CommonWords = new LinkedHashSet<String>();
 	CommonWords.add("a");
