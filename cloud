@@ -1,21 +1,28 @@
 package com.parse.starter;
 
 import android.app.Activity;
-//import android.app.AlertDialog;
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseAnalytics;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import android.widget.EditText;
 
-import android.app.Dialog;
+import android.app.AlertDialog;
 
 public class ParseStarterProjectActivity extends Activity {
 	/** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState); 
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
 		
 		// Add your initialization code here
 	    Parse.initialize(this, "imNR8maOdk7pX3UOCTT67BRt58azQVw91e9vtdbl", "tYAaTCZ7f6SMkS1aAGSCBn7XkN7goCx7dTY0z1sY");
@@ -30,12 +37,24 @@ public class ParseStarterProjectActivity extends Activity {
 	    ParseACL.setDefaultACL(defaultACL, true);
 		
 		ParseAnalytics.trackAppOpened(getIntent());
-		sendToCloud("How To Code", "Aadi T", 25, 40);
-	}
-	
-	public String keyToLower (String input) {
-		String lowerCaseKey = new String (input.toLowerCase());
-		  return lowerCaseKey;		
+		
+		Button confirmation = (Button) findViewById(R.id.confirm);
+
+		confirmation.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				String bookTitle = ((EditText)findViewById(R.id.enterTitle)).getText().toString();
+				String bookAuthor = ((EditText)findViewById(R.id.enterAuthor)).getText().toString();
+				String bookLowPrice = ((EditText)findViewById(R.id.enterPrice)).getText().toString();
+				//String bookHighPrice = ((EditText)findViewById(R.id.enterHighPrice)).getText().toString();
+				new AlertDialog.Builder(ParseStarterProjectActivity.this)
+				.setMessage(bookTitle + " " + bookAuthor + " " + bookLowPrice).create().show();
+				sendToCloud(bookTitle, bookAuthor, bookLowPrice);
+			}
+		});
+		
 	}
 	
 	public int priceRangeLowerBound (String priceRange) {
@@ -82,18 +101,18 @@ public class ParseStarterProjectActivity extends Activity {
 		}
 	}
 	
-	public void sendToCloud (String title, String author, int lowPrice, int highPrice) {
+	public void sendToCloud (String title, String author, String lowPrice) {
 		ParseObject textbook = new ParseObject("SampleTextbook");
-		textbook.put("Title", keyToLower(title));
-		textbook.put("Author", keyToLower(author));
-		textbook.put("LowPrice", lowPrice);
-		textbook.put("HighPrice", highPrice);
-		textbook.saveInBackground();
-		
-		/*System.out.println(textbook.getString("Title"));
-		System.out.println(textbook.getString("Author"));
-		System.out.println(textbook.getInt("LowPrice"));
-		System.out.println(textbook.getInt("HighPrice"));*/
+		textbook.put("Title", title.toLowerCase());
+		textbook.put("Author", author.toLowerCase());
+		textbook.put("LowPrice", Integer.parseInt(lowPrice));
+		try {
+			textbook.save();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e);
+		}
+		String objectId = textbook.getObjectId();
 	}
 
 }
