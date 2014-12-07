@@ -1,33 +1,33 @@
-		public static String[] split(String realinput) {
+	public static String[] split(String realinput) {
 		
-//Separates the inputted string into an string array of all its words.
+			//Separates the inputted string into an string array of all its words.
 		String[] result = realinput.split(" ");
 		
 		return result; 
-		}
+	}
 		
-		public static String[] simplesearch(String input) {
+	public static String[] simplesearch(String input) {
 
-//Performs the split method on specific string.
+			//Performs the split method on specific string.
 	   String[] splitinput = split(input);
 	   
-//Creates a list of the separated words.
+			//Creates a list of the separated words.
 	    List<String> wordlist = Arrays.asList(splitinput);
 	
-//Arrays.asList is immutable, so this creates a mutable list with the same contents.   
+			//Arrays.asList is immutable, so this creates a mutable list with the same contents.   
 	    List editableList = new ArrayList();
 	    editableList.addAll(wordlist);
 
-//Specifies and removes common words from the list.  
+			//Specifies and removes common words from the list.  
 	    List<String> commonwords = Arrays.asList("a", "an", "the", "and", "but", "or", "to", "on", "from", "at", "of", "is", "for");
 	    moreList.removeAll(commonwords);
 	
-//Changes the word list back into a string array.
+			//Changes the word list back into a string array.
 	    String[] simpleArray = new String[moreList.size()];
 	    moreList.toArray(simpleArray);
 	    
-	  return simpleArray;
+	 return simpleArray;
 	
 		
-		}
+		
 	}
