@@ -1,6 +1,18 @@
-	public static String[] split(String realinput) {
-		
-			//Separates the inputted string into an string array of all its words.
+package edu.yale.cpsc112_assignment2;
+
+import java.util.Set;
+import java.util.regex.*;
+import java.util.*;
+
+
+public class CPSC112_Assignment2 {
+		public static void main(String[] args){
+			String realinput="hop on pop";
+			System.out.print(Arrays.toString(simplesearch(realinput)));
+		}
+		public static String[] split(String realinput) {
+			
+			//Separates the input string into an string array of all its words.
 		String[] result = realinput.split(" ");
 		
 		return result; 
@@ -22,14 +34,13 @@
 	    List<String> commonwords = Arrays.asList("a", "an", "the", "and", "but", "or", "to", "on", "from", "at", "of", "is", "for");
 	    editableList.removeAll(commonwords);
 	
-			//Changes the word list back into a string array.
+	    //Changes the word list back into a string array.
 	    String[] simpleArray = new String[editableList.size()];
 	    editableList.toArray(simpleArray);
 	    
-	 return simpleArray;
+	    return simpleArray;
+		}
 	
-		
-		
 	}
 	
 	 	ParseQuery<ParseObject> query = ParseQuery.getQuery("MyClass");
