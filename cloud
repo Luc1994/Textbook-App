@@ -1,99 +1,162 @@
 package com.parse.starter;
 
-import android.app.Activity;
-//import android.app.AlertDialog;
-import android.os.Bundle;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseAnalytics;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.ParseQuery;
+import com.parse.ParseQueryAdapter;
 
-import android.app.Dialog;
 
-public class ParseStarterProjectActivity extends Activity {
+public class TextBookExchange extends Activity {
 	/** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		setContentView(R.layout.main);
+
 		// Add your initialization code here
-	    Parse.initialize(this, "imNR8maOdk7pX3UOCTT67BRt58azQVw91e9vtdbl", "tYAaTCZ7f6SMkS1aAGSCBn7XkN7goCx7dTY0z1sY");
-	    // Also, specify a default Activity to handle push notifications in this method as well
+		Parse.initialize(this, "imNR8maOdk7pX3UOCTT67BRt58azQVw91e9vtdbl",
+				"tYAaTCZ7f6SMkS1aAGSCBn7XkN7goCx7dTY0z1sY");
+		// Also, specify a default Activity to handle push notifications in this
+		// method as well
 
-	    ParseUser.enableAutomaticUser();
-	    ParseACL defaultACL = new ParseACL();
-	      
-	    // If you would like all objects to be private by default, remove this line.
-	    defaultACL.setPublicReadAccess(true);
-	    
-	    ParseACL.setDefaultACL(defaultACL, true);
-		
+		ParseUser.enableAutomaticUser();
+		ParseACL defaultACL = new ParseACL();
+
+		// If you would like all objects to be private by default, remove this
+		// line.
+		defaultACL.setPublicReadAccess(true);
+
+		ParseACL.setDefaultACL(defaultACL, true);
+
 		ParseAnalytics.trackAppOpened(getIntent());
-		sendToCloud("How To Code", "Aadi T", 25, 40);
-	}
-	
-	public String keyToLower (String input) {
-		String lowerCaseKey = new String (input.toLowerCase());
-		  return lowerCaseKey;		
-	}
-	
-	public int priceRangeLowerBound (String priceRange) {
-		if (priceRange.indexOf("-") != -1 && priceRange.indexOf(" ") == -1) {
-			int lowerBound = Integer.parseInt(priceRange.substring(0, priceRange.indexOf("-")));
-			return lowerBound;
-		}
-		else if (priceRange.indexOf("-") == -1 && priceRange.indexOf(" ") != -1) {
-			int lowerBound = Integer.parseInt(priceRange.substring(0, priceRange.indexOf(" ")));
-			return lowerBound;
-		}
-		else {
-			if (priceRange.indexOf("-") < priceRange.indexOf(" ")) {
-				int lowerBound = Integer.parseInt(priceRange.substring(0, priceRange.indexOf("-")));
-				return lowerBound;
-			}
-			else {
-				int lowerBound = Integer.parseInt(priceRange.substring(0, priceRange.indexOf(" ")));
-				return lowerBound;
-			}
-		}
-		
-	}
-	
-	public int priceRangeUpperBound (String priceRange) {
-		//this code is rudimentary and doesn't account for the possibility of multiple spaces or dashes
-		if (priceRange.indexOf("-") != -1 && priceRange.indexOf(" ") == -1) {
-			int upperBound = Integer.parseInt(priceRange.substring(priceRange.indexOf("-") + 1, priceRange.length()));
-			return upperBound;
-		}
-		else if (priceRange.indexOf("-") == -1 && priceRange.indexOf(" ") != -1) {
-			int upperBound = Integer.parseInt(priceRange.substring(priceRange.indexOf(" ") + 1, priceRange.length()));
-			return upperBound;
-		}
-		else {
-			if (priceRange.indexOf("-") < priceRange.indexOf(" ")) {
-				int upperBound = Integer.parseInt(priceRange.substring(priceRange.indexOf("-") + 1, priceRange.length()));
-				return upperBound;
-			}
-			else {
-				int upperBound = Integer.parseInt(priceRange.substring(priceRange.indexOf(" "), priceRange.length()));
-				return upperBound;
-			}
-		}
-	}
-	
-	public void sendToCloud (String title, String author, int lowPrice, int highPrice) {
-		ParseObject textbook = new ParseObject("SampleTextbook");
-		textbook.put("Title", keyToLower(title));
-		textbook.put("Author", keyToLower(author));
-		textbook.put("LowPrice", lowPrice);
-		textbook.put("HighPrice", highPrice);
-		textbook.saveInBackground();
-		
-		/*System.out.println(textbook.getString("Title"));
-		System.out.println(textbook.getString("Author"));
-		System.out.println(textbook.getInt("LowPrice"));
-		System.out.println(textbook.getInt("HighPrice"));*/
-	}
 
+		Button confirmation = (Button) findViewById(R.id.confirm);
+		//Button confirmation2 = (Button) findViewById(R.id.Search);
+
+
+		confirmation.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String bookTitle = ((EditText) findViewById(R.id.enterTitle))
+						.getText().toString();
+				String bookAuthor = ((EditText) findViewById(R.id.enterAuthor))
+						.getText().toString();
+				String bookLowPrice = ((EditText) findViewById(R.id.enterPrice))
+						.getText().toString();
+				String bookPhoneNumber = ((EditText) findViewById(R.id.enterNumber))
+						.getText().toString();
+				// String bookHighPrice =
+				// ((EditText)findViewById(R.id.enterHighPrice)).getText().toString();
+				if ( bookPhoneNumber.length() != 10 ) 
+				{
+					new AlertDialog.Builder(TextBookExchange.this)
+					.setMessage( "Please input a 10 digit phone number").create().show();
+				}
+				else 
+				{
+				new AlertDialog.Builder(TextBookExchange.this)
+						.setMessage(
+								bookTitle + " " + bookAuthor + " "
+										+ bookLowPrice + " "  + bookPhoneNumber).create().show();
+				sendToCloud(bookTitle, bookAuthor, bookLowPrice, bookPhoneNumber);
+				}
+			}
+		});
+	}
+	
+	
+	public void sendToCloud(String title, String author, String lowPrice, String phoneNumber ) {
+		ParseObject textbook = new ParseObject("SampleTextbook");
+		textbook.put("Title", title.toLowerCase());
+		textbook.put("Author", author.toLowerCase());
+		textbook.put("LowPrice", Integer.parseInt(lowPrice));
+		textbook.put("PhoneNumber", phoneNumber.toString());
+		try {
+			textbook.save();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e);
+		}
+		String objectId = textbook.getObjectId();
+	}
+		
+//	public static void list() {
+//			//new FindCallback<ParseObject>()
+//			ParseQuery<ParseObject> getSample = ParseQuery.getQuery("SampleText");
+//			
+//			getSample.findInBackground(new FindCallback<ParseObject>() {
+//			     public void done(List<ParseObject> objects, ParseException e) {
+//			         if (e == null) {
+//			        	 new AlertDialog.Builder(TextBookExchange.this)
+//							.setMessage(objects).create().show();
+//			         } else {
+//			        	 new AlertDialog.Builder(TextBookExchange.this)
+//							.setMessage("Retrival Failed").create().show();
+//			         }
+//
+//			     }
+//			
+//			});
+//		}
+	
+	//new FindCallback<ParseObject>()
+	//ParseQuery<ParseObject> getSample = ParseQuery.getQuery("SampleText");
+	
+	
+	
+
+
+	
+	
+	//uEB3tGXKYe
+
+//	public static String[] split(String realinput) {
+//
+//		// Separates the inputed string into an string array of all its words.
+//		String[] result = realinput.split(" ");
+//
+//		return result;
+//	}
+//
+//	public static String[] simplesearch(String input) {
+//
+//		// Performs the split method on specific string.
+//		String[] splitinput = split(input);
+//
+//		// Creates a list of the separated words.
+//		List<String> wordlist = Arrays.asList(splitinput);
+//
+//		// Arrays.asList is immutable, so this creates a mutable list with the
+//		// same contents.
+//		List editableList = new ArrayList();
+//		editableList.addAll(wordlist);
+//
+//		// Specifies and removes common words from the list.
+//		List<String> commonwords = Arrays.asList("a", "an", "the", "and",
+//				"but", "or", "to", "on", "from", "at", "of", "is", "for");
+//		moreList.removeAll(commonwords);
+//
+//		// Changes the word list back into a string array.
+//		String[] simpleArray = new String[moreList.size()];
+//		moreList.toArray(simpleArray);
+//
+//		return simpleArray;
+//
+//	}
 }
