@@ -20,11 +20,11 @@
 
 			//Specifies and removes common words from the list.  
 	    List<String> commonwords = Arrays.asList("a", "an", "the", "and", "but", "or", "to", "on", "from", "at", "of", "is", "for");
-	    moreList.removeAll(commonwords);
+	    editableList.removeAll(commonwords);
 	
 			//Changes the word list back into a string array.
-	    String[] simpleArray = new String[moreList.size()];
-	    moreList.toArray(simpleArray);
+	    String[] simpleArray = new String[editableList.size()];
+	    editableList.toArray(simpleArray);
 	    
 	 return simpleArray;
 	
